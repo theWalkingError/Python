@@ -87,7 +87,7 @@ def main():
 
 
 		pygame.display.flip()  # применение всех изменений в графике
-		timer.tick(8)
+		timer.tick(7)
 
 
 if __name__ == '__main__':
