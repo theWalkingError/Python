@@ -1,9 +1,11 @@
 import pygame
 import sys
+import random
 
 def main():
 	SIZE_BLOCK = 20
 	FRAME_COLOR = (60, 179, 113)  # цвет заливки поля
+	food_color = (255, 0, 0)
 	WHITE = (255, 255, 255)
 	GREEN = (143, 188, 143)
 	HEADER_COLOR = (46, 139, 87)
@@ -23,6 +25,18 @@ def main():
 		def is_inside(self):
 			return 0 <= self.x < COUNT_BLOCKS and 0 <= self.y < COUNT_BLOCKS
 
+	class Food:
+		def __init__(self, food_color):
+			self.food_color = food_color
+			self.food_size_x = 20
+			self.food_size_y = 20
+			self.food_pos = [random.randint(1, size[0]),
+							 random.randint(1, size[1])]
+
+		def draw_food(self, screen):
+			pygame.draw.rect(screen, self.food_color, [self.food_pos[0], self.food_pos[1],
+													   self.food_size_x, self.food_size_y])
+
 	snake_blocks = [SnakeBlock(10,10), SnakeBlock(10, 11)] # создаются объекты класса SnakeBlock и помещаются в кортеж
 
 
@@ -36,7 +50,9 @@ def main():
 										 HEADER_MARGIN + SIZE_BLOCK + raw * SIZE_BLOCK + MARGIN * (raw + 1),
 										 SIZE_BLOCK,
 										 SIZE_BLOCK])
-
+	
+	food = Food(food_color)
+	
 	d_col = 1
 	d_raw = 0
 
@@ -61,7 +77,9 @@ def main():
 
 
 		screen.fill(FRAME_COLOR)
+
 		pygame.draw.rect(screen, HEADER_COLOR, [0, 0, size[0], HEADER_MARGIN])
+
 
 		for raw in range(COUNT_BLOCKS):
 			for column in range(COUNT_BLOCKS):
@@ -85,7 +103,8 @@ def main():
 		snake_blocks.append(head_2)
 		snake_blocks.pop(0)
 
-
+		food.draw_food(screen)
+		
 		pygame.display.flip()  # применение всех изменений в графике
 		timer.tick(7)
 
