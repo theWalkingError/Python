@@ -2,6 +2,7 @@ import pygame
 import sys
 import random
 import pygame_menu
+import time
 pygame.init()
 
 def main():
@@ -23,9 +24,16 @@ def main():
 	MARGIN = 1
 	size = [SIZE_BLOCK * COUNT_BLOCKS + 2 * SIZE_BLOCK + MARGIN * COUNT_BLOCKS,
 			SIZE_BLOCK * COUNT_BLOCKS + 2 * SIZE_BLOCK + MARGIN * COUNT_BLOCKS + HEADER_MARGIN]
+	
 
 	font = pygame.font.SysFont('courier', 36, True)
 
+	timer = pygame.time.Clock()
+
+	screen = pygame.display.set_mode(size)
+	pygame.display.set_caption('Snake')
+
+	bg_image = pygame.image.load("../Python/snake/img_2.png")
 	
 	class SnakeBlock:
 		def __init__(self, x, y):
@@ -39,10 +47,6 @@ def main():
 		def __eq__(self, other):
 			return isinstance(other, SnakeBlock) and self.x == other.x and self.y == other.y 
 
-	screen = pygame.display.set_mode(size)
-	pygame.display.set_caption('Snake')
-
-	timer = pygame.time.Clock()
 
 	def draw_block(color, raw, column):
 		pygame.draw.rect(screen, color, [SIZE_BLOCK + column * SIZE_BLOCK + MARGIN * (column + 1),
@@ -102,7 +106,7 @@ def main():
 			head = snake_blocks[-1]
 
 			if not head.is_inside():
-				sys.exit()
+				break
 
 			draw_block(RED, apple.x, apple.y)
 
@@ -122,24 +126,35 @@ def main():
 			head_2 = SnakeBlock(head.x + d_raw, head.y + d_col)
 
 			if head_2 in snake_blocks:
-				pygame.quit()
-				sys.exit()
+				break
 
 			snake_blocks.append(head_2)
 			snake_blocks.pop(0)
 
 			timer.tick(3 + speed)
 
-	menu = pygame_menu.Menu(300, 400, 'Добро пожаловать!',
+	menu = pygame_menu.Menu(300, 500, 'Добро пожаловать!',
                        theme=pygame_menu.themes.THEME_BLUE)
 
 	menu.add_text_input('Имя :', default='Игрок')
 	menu.add_button('Играть', start_the_game)
 	menu.add_button('Выйти', pygame_menu.events.EXIT)
 
-	menu.mainloop(screen)	
-		
+	while True:
 
+		screen.blit(bg_image, (0, 0))
+
+		events = pygame.event.get()
+		for event in events:
+			if event.type == pygame.QUIT:
+				exit()
+
+		if menu.is_enabled():
+			menu.update(events)
+			menu.draw(screen)
+
+		pygame.display.update()
+		
 if __name__ == '__main__':
 	main()
 
