@@ -33,7 +33,7 @@ def main():
 	screen = pygame.display.set_mode(size)
 	pygame.display.set_caption('Snake')
 
-	bg_image = pygame.image.load("../Python/snake/img_2.png")
+	# bg_image = pygame.image.load("img_2.png")
 	
 	class SnakeBlock:
 		def __init__(self, x, y):
@@ -142,7 +142,7 @@ def main():
 
 	while True:
 
-		screen.blit(bg_image, (0, 0))
+		# screen.blit(bg_image, (0, 0))
 
 		events = pygame.event.get()
 		for event in events:
