@@ -1,7 +1,7 @@
 class Person:
 
-    def __init__(self, name, surname, age=19):
-        self.name = name
+    def __init__(self, name, surname, age=19): # конструктор класса
+        self.name = name                       # атрибуты класса
         self.surname = surname
         self.age = age
 
@@ -34,7 +34,7 @@ class Student(Person):
         print('Студент учиться на {} курсе'.format(self.curse))
 
 
-person_1 = Person("Andrew", "Afanasiev")
+person_1 = Person("Andrew", "Afanasiev") # экземпляр класса
 person_1.show_info()
 
 student_1 = Student("Ivan", "Ivanov", 19, 2)
