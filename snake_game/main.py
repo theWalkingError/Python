@@ -62,6 +62,7 @@ def main():
 		d_raw = buf_raw = 0
 		score = 0
 		speed = 1
+		
 
 		while True:
 			# получаем все события
